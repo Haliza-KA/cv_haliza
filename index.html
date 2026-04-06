@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Digital Presence</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #050505;
+        color: #f0f0f0;
+      }
+
+      /* Custom Colors & Gradients */
+      .text-gradient {
+        background: linear-gradient(to right, #3b82f6, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .nav-link.active {
+        color: #ec4899;
+        border-bottom: 2px solid #3b82f6;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .btn-primary {
+        background: linear-gradient(45deg, #3b82f6, #ec4899);
+        transition: transform 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col overflow-x-hidden">
+    <nav class="fixed top-0 w-full z-50 glass">
+      <div
+        class="max-w-4xl md:max-w-7xl mx-auto py-4 px-8 lg:px-1 flex justify-between items-center"
+      >
+        <h1 class="font-extrabold text-xl tracking-tighter text-gradient">
+          PORTFOLIO 
+        </h1>
+
+        <button
+          id="menu-btn"
+          class="lg:hidden text-gray-300 focus:outline-none"
+        >
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="menu-icon"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+
+        <div
+          id="nav-menu"
+          class="hidden absolute top-full left-0 right-0 bg-[#0a0a0a] lg:bg-transparent lg:glass lg:static lg:flex lg:w-auto lg:bg-transparent lg:backdrop-blur-0 flex-col lg:flex-row gap-6 lg:gap-8 font-medium p-6 lg:p-0 transition-all duration-300 border-b border-white/10 lg:border-none box-border"
+        >
+          <a
+            href="#"
+            data-page="home"
+            class="nav-link active transition-all hover:text-blue-400"
+            >Home</a
+          >
+          <a
+            href="#"
+            data-page="about"
+            class="nav-link transition-all hover:text-blue-400"
+            >About</a
+          >
+          <a
+            href="#"
+            data-page="contact"
+            class="nav-link transition-all hover:text-blue-400"
+            >Contact</a
+          >
+          <a
+            href="#"
+            data-page="githubInfo"
+            class="nav-link transition-all hover:text-blue-400"
+            >GitHub Info</a
+          >
+          <a
+            href="#"
+            data-page="skills"
+            class="nav-link transition-all hover:text-blue-400"
+            >Skills</a
+          >
+          <a
+            href="#"
+            data-page="experience"
+            class="nav-link transition-all hover:text-blue-400"
+            >Experience</a
+          >
+
+          <a
+            href="#"
+            class="nav-link transition-all hover:text-blue-400"
+            data-page="portfolio"
+            >Portfolios</a
+          >
+          <a
+            href="#"
+            class="nav-link transition-all hover:text-blue-400"
+            data-page="certificates"
+            >Certificates</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <main
+      id="content"
+      class="flex-grow pt-24 pb-12 px-6 max-w-5xl mx-auto w-full"
+    ></main>
+
+    <script>
+      $(document).ready(function () {
+        loadPage("home");
+
+        // Toggle Mobile Menu
+        $("#menu-btn").click(function () {
+          $("#nav-menu").toggleClass("hidden flex");
+
+          // Opsional: Ubah ikon burger menjadi 'X' (close)
+          const isOpen = !$("#nav-menu").hasClass("hidden");
+          if (isOpen) {
+            $("#menu-icon").attr("d", "M6 18L18 6M6 6l12 12");
+          } else {
+            $("#menu-icon").attr("d", "M4 6h16M4 12h16M4 18h16");
+          }
+        });
+
+        $(".nav-link").click(function (e) {
+          e.preventDefault();
+          const page = $(this).data("page");
+
+          // Tutup menu otomatis setelah klik (untuk user experience mobile)
+          if (window.innerWidth < 1024) {
+            $("#nav-menu").addClass("hidden").removeClass("flex");
+            $("#menu-icon").attr("d", "M4 6h16M4 12h16M4 18h16");
+          }
+
+          $(".nav-link").removeClass("active");
+          $(this).addClass("active");
+          loadPage(page);
+        });
+
+        // Fungsi loadPage tetap sama seperti sebelumnya...
+        function loadPage(pageName) {
+          $("#content").animate(
+            { opacity: 0, marginTop: "20px" },
+            200,
+            function () {
+              // Karena ini simulasi lokal, pastikan file .html tersedia
+              $.ajax({
+                url: pageName + ".html",
+                method: "GET",
+                success: function (data) {
+                  $("#content")
+                    .html(data)
+                    .animate({ opacity: 1, marginTop: "0px" }, 300);
+                },
+                error: function () {
+                  $("#content")
+                    .html("<p class='text-center'>Page not found.</p>")
+                    .animate({ opacity: 1 }, 300);
+                },
+              });
+            },
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

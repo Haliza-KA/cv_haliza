@@ -1,0 +1,227 @@
+<div class="max-w-xl mx-auto space-y-12 py-16 px-4 md:px-6 overflow-hidden">
+  <div class="text-center space-y-4">
+    <h2
+      class="text-4xl md:text-6xl font-black italic tracking-tighter bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight"
+    >
+      GET IN TOUCH
+    </h2>
+    <p class="text-gray-400 text-base max-w-xs mx-auto leading-relaxed">
+      Ada ide proyek atau sekadar ingin menyapa?
+      <span class="text-white">Mari bicara.</span>
+    </p>
+  </div>
+
+  <div
+    class="relative p-1 rounded-[2.5rem] bg-gradient-to-b from-white/10 to-transparent"
+  >
+    <form
+      id="contactForm"
+      class="space-y-4 w-full p-6 md:p-8 bg-[#0a0a0a]/80 backdrop-blur-2xl rounded-[2.3rem] shadow-2xl border border-white/5 box-border"
+    >
+      <div class="group">
+        <input
+          id="name"
+          type="text"
+          placeholder="Your Name"
+          class="w-full p-5 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 outline-none focus:border-blue-500/50 focus:bg-white/10 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-base box-border"
+        />
+        <p class="error-msg text-pink-500 text-xs mt-2 ml-2 hidden">
+          Nama tidak boleh kosong.
+        </p>
+      </div>
+
+      <div class="group">
+        <input
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          class="w-full p-5 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 outline-none focus:border-blue-500/50 focus:bg-white/10 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-base box-border"
+        />
+        <p class="error-msg text-pink-500 text-xs mt-2 ml-2 hidden">
+          Format email tidak valid.
+        </p>
+      </div>
+
+      <div class="group">
+        <textarea
+          id="message"
+          placeholder="Your Message"
+          rows="4"
+          class="w-full p-5 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 outline-none focus:border-blue-500/50 focus:bg-white/10 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-base box-border resize-none"
+        ></textarea>
+        <p class="error-msg text-pink-500 text-xs mt-2 ml-2 hidden">
+          Pesan minimal 10 karakter.
+        </p>
+      </div>
+
+      <button
+        id="btnSubmit"
+        type="submit"
+        class="group relative w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl tracking-[0.2em] uppercase transition-all active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.3)] overflow-hidden"
+      >
+        <span class="relative z-10">Send Message</span>
+      </button>
+    </form>
+
+    <div
+      id="toastSuccess"
+      class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-green-500 text-white px-8 py-4 rounded-2xl shadow-2xl z-50 hidden"
+    >
+      Pesan berhasil dikirim! 🚀
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <p
+      class="text-center text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold"
+    >
+      Find me on
+    </p>
+    <div class="flex justify-center gap-6">
+      <a
+        href="https://www.instagram.com/snlizaaaa?igsh=cnJpd2xwYzcyejRm"
+        class="group relative h-14 w-14 bg-white/5 border border-white/10 rounded-full flex items-center justify-center transition-all hover:border-pink-500/50 hover:scale-110 active:scale-90"
+      >
+        <span
+          class="text-xs font-black text-gray-400 group-hover:text-pink-400 transition-colors"
+          >IG</span
+        >
+        <div
+          class="absolute inset-0 rounded-full bg-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+        ></div>
+      </a>
+      <a
+        href="https://wa.me/qr/JDQSALFBXSTXE1"
+        class="group relative h-14 w-14 bg-white/5 border border-white/10 rounded-full flex items-center justify-center transition-all hover:border-blue-400/50 hover:scale-110 active:scale-90"
+      >
+        <span
+          class="text-xs font-black text-gray-400 group-hover:text-blue-400 transition-colors"
+          >WA</span
+        >
+        <div
+          class="absolute inset-0 rounded-full bg-blue-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+        ></div>
+      </a>
+      <a
+        href="https://github.com/Haliza-KA"
+        class="group relative h-14 w-14 bg-white/5 border border-white/10 rounded-full flex items-center justify-center transition-all hover:border-white/50 hover:scale-110 active:scale-90"
+      >
+        <span
+          class="text-xs font-black text-gray-400 group-hover:text-white transition-colors"
+          >GH</span
+        >
+        <div
+          class="absolute inset-0 rounded-full bg-white/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+        ></div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $("#contactForm").on("submit", function (e) {
+        e.preventDefault(); // Mencegah reload halaman
+
+        let isValid = true;
+        const name = $("#name").val().trim();
+        const email = $("#email").val().trim();
+        const message = $("#message").val().trim();
+        const emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+        // Reset error message
+        $(".error-msg").slideUp();
+        $("input, textarea").removeClass("border-pink-500/50");
+
+        // Validasi Nama
+        if (name === "") {
+          $("#name")
+            .siblings(".error-msg")
+            .text("Silakan isi nama Anda.")
+            .slideDown();
+          $("#name").addClass("border-pink-500/50");
+          isValid = false;
+        }
+
+        // Validasi Email
+        if (email === "") {
+          $("#email")
+            .siblings(".error-msg")
+            .text("Email tidak boleh kosong.")
+            .slideDown();
+          $("#email").addClass("border-pink-500/50");
+          isValid = false;
+        } else if (!emailReg.test(email)) {
+          $("#email")
+            .siblings(".error-msg")
+            .text("Format email salah (contoh: user@mail.com).")
+            .slideDown();
+          $("#email").addClass("border-pink-500/50");
+          isValid = false;
+        }
+
+        // Validasi Pesan
+        if (message.length < 10) {
+          $("#message")
+            .siblings(".error-msg")
+            .text("Pesan terlalu pendek (minimal 10 karakter).")
+            .slideDown();
+          $("#message").addClass("border-pink-500/50");
+          isValid = false;
+        }
+
+        // Jika Valid, Jalankan Animasi Sukses
+        if (isValid) {
+          const $btn = $("#btnSubmit");
+          $btn.html("Sending...").prop("disabled", true).addClass("opacity-50");
+
+          // Simulasi proses pengiriman (misal: AJAX)
+          setTimeout(function () {
+            // Tampilkan Toast
+            $("#toastSuccess").fadeIn().delay(3000).fadeOut();
+            localStorage.removeItem("contact_name");
+            localStorage.removeItem("contact_email");
+            localStorage.removeItem("contact_message");
+            // Reset Form
+            $("#contactForm")[0].reset();
+            $btn
+              .html('<span class="relative z-10">Send Message</span>')
+              .prop("disabled", false)
+              .removeClass("opacity-50");
+          }, 2000);
+        }
+      });
+
+      // Menghilangkan error saat user mulai mengetik kembali
+      $("input, textarea").on("keyup", function () {
+        if ($(this).val().trim() !== "") {
+          $(this).siblings(".error-msg").slideUp();
+          $(this).removeClass("border-pink-500/50");
+        }
+      });
+
+      // === 1. FUNGSI LOAD DATA (Saat Halaman Dimuat) ===
+      function loadSavedData() {
+        const savedName = localStorage.getItem("contact_name");
+        const savedEmail = localStorage.getItem("contact_email");
+        const savedMessage = localStorage.getItem("contact_message");
+
+        if (savedName) $("#name").val(savedName);
+        if (savedEmail) $("#email").val(savedEmail);
+        if (savedMessage) $("#message").val(savedMessage);
+      }
+
+      // Jalankan load data saat start
+      loadSavedData();
+
+      // === 2. FUNGSI SAVE DATA (Saat Mengetik) ===
+      // Menggunakan event 'input' untuk menangkap semua perubahan (ketik, paste, delete)
+      $("#name, #email, #message").on("input", function () {
+        const id = $(this).attr("id");
+        const value = $(this).val();
+
+        // Simpan ke localStorage dengan key spesifik
+        localStorage.setItem("contact_" + id, value);
+      });
+    });
+  </script>
+</div>
