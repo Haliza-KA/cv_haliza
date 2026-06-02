@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Digital Presence</title>
+    
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ec4899" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PORTFOLIO" />
+    <link rel="apple-touch-icon" href="image/icon.png" />
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -151,7 +159,6 @@
           e.preventDefault();
           const page = $(this).data("page");
 
-          // Tutup menu otomatis setelah klik (untuk user experience mobile)
           if (window.innerWidth < 1024) {
             $("#nav-menu").addClass("hidden").removeClass("flex");
             $("#menu-icon").attr("d", "M4 6h16M4 12h16M4 18h16");
@@ -162,13 +169,12 @@
           loadPage(page);
         });
 
-        // Fungsi loadPage tetap sama seperti sebelumnya...
         function loadPage(pageName) {
           $("#content").animate(
             { opacity: 0, marginTop: "20px" },
             200,
             function () {
-              // Karena ini simulasi lokal, pastikan file .html tersedia
+              // Mengambil file halaman eksternal secara asynchronous
               $.ajax({
                 url: pageName + ".html",
                 method: "GET",
@@ -188,10 +194,18 @@
         }
       });
 
-      // KODE PERBAIKAN: Fungsi Navigasi Global untuk Tombol "Let's Start!"
       function navigateToAbout() {
         $('.nav-link[data-page="about"]').trigger('click');
       }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker berhasil didaftarkan!', reg))
+            .catch(err => console.error('Pendaftaran Service Worker gagal:', err));
+        });
+      }
+      // ===========================================================
     </script>
   </body>
 </html>
