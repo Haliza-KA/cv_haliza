@@ -1,0 +1,291 @@
+<section id="weather-hub" class="scroll-mt-24 my-10 space-y-10">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+    <div>
+      <h3 class="text-3xl font-bold text-white">
+        Smart Weather <span class="text-pink-400">& Routing Integration</span>
+      </h3>
+    </div>
+  </div>
+
+  <div class="p-6 rounded-[2rem] bg-white/5 border border-white/10 flex flex-col md:flex-row gap-4 items-end box-border">
+    <div class="flex-grow space-y-2 w-full">
+      <label class="text-xs uppercase font-bold tracking-widest text-gray-400 block">Ketik Nama Kota Tujuan Analisis Anda</label>
+      <input id="input-city" type="text" value="Jakarta" placeholder="Contoh: Jakarta, Surabaya, Yogyakarta, Tokyo..." class="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-600 outline-none focus:border-pink-500 focus:bg-white/10 transition-all box-border"/>
+    </div>
+    <button id="btn-check-system" class="w-full md:w-auto bg-blue-600 hover:bg-blue-500 text-white font-black py-4 px-8 rounded-xl text-xs tracking-wider uppercase transition-transform active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.2)] whitespace-nowrap">
+      Analisis Cerdas Rute & Cuaca
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <div class="p-6 rounded-[2rem] bg-gradient-to-b from-blue-600/10 to-transparent border border-white/10 flex flex-col justify-between min-h-[220px]">
+      <div>
+        <h4 class="text-2xl font-black text-white mt-3">Bandung</h4>
+        <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Jawa Barat, ID</p>
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>
+          <span id="bdg-temp" class="text-4xl font-black text-white tracking-tighter">--°C</span>
+          <p id="bdg-desc" class="text-xs text-gray-300 italic capitalize mt-1"></p>
+        </div>
+        <div class="text-right text-xs text-gray-400 font-mono space-y-0.5">
+          <p>Hum: <span id="bdg-hum">--</span>%</p>
+          <p>Wind: <span id="bdg-wind">--</span> km/h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 rounded-[2rem] bg-gradient-to-b from-purple-600/10 to-transparent border border-white/10 flex flex-col justify-between min-h-[220px]">
+      <div>
+        <h4 class="text-2xl font-black text-white mt-3">Surabaya</h4>
+        <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Jawa Timur, ID</p>
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <div>
+          <span id="sub-temp" class="text-4xl font-black text-white tracking-tighter">--°C</span>
+          <p id="sub-desc" class="text-xs text-gray-300 italic capitalize mt-1">Mengambil data dari Open-Meteo...</p>
+        </div>
+        <div class="text-right text-xs text-gray-400 font-mono space-y-0.5">
+          <p>Hum: <span id="sub-hum">--</span>%</p>
+          <p>Wind: <span id="sub-wind">--</span> km/h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 rounded-[2rem] bg-gradient-to-b from-pink-600/10 to-transparent border border-white/10 flex flex-col justify-between min-h-[220px] md:col-span-2 lg:col-span-1">
+      <div>
+        <h4 class="text-xl font-bold text-white mt-3">Rekomendasi Cerdas</h4>
+        <p class="text-xs text-gray-400">Titik Keberangkatan: <span class="text-blue-400 font-semibold">Bandung (Home Base)</span></p>
+      </div>
+      
+      <div id="smart-loading" class="hidden text-xs text-gray-400 animate-pulse my-2">Mengevaluasi koordinat geo-lokasi dan menghitung kalkulasi rute...</div>
+      
+      <div id="smart-content" class="space-y-3 mt-2">
+        <div class="grid grid-cols-2 gap-2 bg-white/5 p-3 rounded-xl border border-white/5 text-xs font-mono">
+          <div>
+            <span class="text-gray-500 block uppercase text-[9px]">Estimasi Jarak</span>
+            <span id="route-dist" class="text-white font-bold text-sm">-- km</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block uppercase text-[9px]">Durasi Tempuh</span>
+            <span id="route-time" class="text-white font-bold text-sm">-- jam</span>
+          </div>
+        </div>
+        <div id="ai-alert" class="p-3 bg-white/5 border border-white/10 rounded-xl text-xs text-yellow-400/90 leading-relaxed font-medium">
+          Menunggu input nama kota untuk memproses kalkulasi keputusan logistik perjalanan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-6 md:p-8 rounded-[2.5rem] bg-white/5 border border-white/10 box-border">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
+      <h4 class="text-lg font-bold text-white flex items-center gap-2">
+        <span>📋 Prakiraan Cuaca Beberapa Jam ke Depan:</span>
+      </h4>
+      <span id="forecast-target-title" class="px-4 py-1.5 bg-pink-500/10 border border-pink-500/20 text-pink-400 rounded-xl text-xs font-bold tracking-wider uppercase">Jakarta (Default Level 7)</span>
+    </div>
+    
+    <div id="forecast-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready(function() {
+    const citiesCoords = {
+      "Bandung": { lat: -6.9175, lon: 107.6191 },
+      "Surabaya": { lat: -7.2575, lon: 112.7521 }
+    };
+
+    const baseLat = citiesCoords["Bandung"].lat;
+    const baseLon = citiesCoords["Bandung"].lon;
+
+    executeSystemInit();
+
+    function executeSystemInit() {
+      fetchOpenMeteoLive(citiesCoords["Bandung"].lat, citiesCoords["Bandung"].lon, "#bdg-temp", "#bdg-desc", "#bdg-hum", "#bdg-wind");
+      
+      fetchOpenMeteoLive(citiesCoords["Surabaya"].lat, citiesCoords["Surabaya"].lon, "#sub-temp", "#sub-desc", "#sub-hum", "#sub-wind");
+      
+      // Koordinat default Jakarta: lat -6.2088, lon 106.8456
+      fetchOpenMeteoForecast(-6.2088, 106.8456, "Jakarta");
+    }
+
+    // WMO Weather Interpretation Codes (Mengonversi data angka mentah Open-Meteo menjadi Teks & Emoji Deskriptif)
+    function interpretWmoCode(code) {
+      if (code === 0) return { desc: "Cerah Nyata", emoji: "☀️" };
+      if (code >= 1 && code <= 3) return { desc: "Berawan Sebagian", emoji: "⛅" };
+      if (code >= 45 && code <= 48) return { desc: "Berkabut (Foggy)", emoji: "🌫️" };
+      if (code >= 51 && code <= 55) return { desc: "Gerimis Ringan", emoji: "🌧️" };
+      if (code >= 61 && code <= 65) return { desc: "Hujan Intensitas Normal", emoji: "🌧️" };
+      if (code >= 71 && code <= 77) return { desc: "Butiran Salju / Dingin", emoji: "❄️" };
+      if (code >= 80 && code <= 82) return { desc: "Hujan Deras / Pancaroba", emoji: "🌦️" };
+      if (code >= 95 && code <= 99) return { desc: "Badai Petir / Guntur", emoji: "⛈️" };
+      return { desc: "Berawan Normal", emoji: "☁️" };
+    }
+
+    function fetchOpenMeteoLive(lat, lon, tempSelector, descSelector, humiditySelector, windSelector) {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Asia%2FJakarta`;
+      
+      $.ajax({
+        url: url,
+        method: "GET",
+        success: function(response) {
+          const currentData = response.current;
+          const weatherInterpretation = interpretWmoCode(currentData.weather_code);
+
+          $(tempSelector).text(`${Math.round(currentData.temperature_2m)}°C`);
+          $(descSelector).text(`${weatherInterpretation.emoji} ${weatherInterpretation.desc}`);
+          $(humiditySelector).text(currentData.relative_humidity_2m);
+          $(windSelector).text(currentData.wind_speed_10m);
+        },
+        error: function() {
+          $(descSelector).text("Gagal memuat API.");
+        }
+      });
+    }
+
+    function fetchOpenMeteoForecast(lat, lon, cityName) {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weather_code&timezone=Asia%2FJakarta`;
+      $("#forecast-container").html("<div class='col-span-full text-center py-6 text-gray-400 text-sm animate-pulse'>Mengurai susunan data array hourly Open-Meteo...</div>");
+      
+      $.ajax({
+        url: url,
+        method: "GET",
+        success: function(response) {
+          $("#forecast-target-title").text(cityName);
+          let cardsHtml = "";
+          
+          const hourlyData = response.hourly;
+          
+          for (let i = 0; i < 18; i += 3) {
+            if (!hourlyData.time[i]) break;
+            
+            // Format waktu ISO "YYYY-MM-DDTHH:MM" diambil jam-nya saja
+            const hoursOnly = hourlyData.time[i].split("T")[1];
+            const currentTemp = Math.round(hourlyData.temperature_2m[i]);
+            const wmoCode = hourlyData.weather_code[i];
+            const weatherInterpretation = interpretWmoCode(wmoCode);
+            
+            cardsHtml += `
+              <div class="p-4 rounded-2xl bg-white/5 border border-white/5 text-center flex flex-col items-center justify-center transition-all hover:bg-white/10">
+                <span class="text-xs font-mono font-bold text-gray-400 bg-white/5 px-2 py-0.5 rounded-md mb-2">${hoursOnly}</span>
+                <span class="text-3xl my-1 select-none">${weatherInterpretation.emoji}</span>
+                <span class="text-xl font-black text-white mt-1">${currentTemp}°C</span>
+                <span class="text-[10px] text-gray-400 font-semibold capitalize truncate w-full mt-1" title="${weatherInterpretation.desc}">${weatherInterpretation.desc}</span>
+              </div>
+            `;
+          }
+          $("#forecast-container").html(cardsHtml);
+        },
+        error: function() {
+          $("#forecast-container").html("<div class='col-span-full text-center py-4 text-pink-500 text-xs font-bold'>⚠️ Gagal mengambil array forecast Open-Meteo.</div>");
+        }
+      });
+    }
+
+    // Level 9: Event Listener Input Pengguna dengan Geocoding Terbuka
+    $("#btn-check-system").click(function() {
+      const cityInput = $("#input-city").val().trim();
+      
+      if(cityInput === "") {
+        alert("Nama kota tujuan tidak boleh kosong.");
+        return;
+      }
+
+      $("#smart-loading").removeClass("hidden");
+      $("#smart-content").addClass("hidden");
+
+      const geocodingUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityInput)}&format=json&limit=1`;
+      
+      $.ajax({
+        url: geocodingUrl,
+        method: "GET",
+        headers: { "Accept-Language": "id" },
+        success: function(geoResponse) {
+          if(geoResponse.length === 0) {
+            $("#smart-loading").addClass("hidden");
+            $("#smart-content").removeClass("hidden");
+            $("#ai-alert").html("<span class='text-pink-500 font-bold'>⚠️ Kota tidak ditemukan di peta OpenStreetMap. Coba periksa kembali ejaannya.</span>");
+            return;
+          }
+
+          const targetLatitude = parseFloat(geoResponse[0].lat);
+          const targetLongitude = parseFloat(geoResponse[0].lon);
+          const formattedCityName = geoResponse[0].display_name.split(",")[0];
+
+          fetchOpenMeteoForecast(targetLatitude, targetLongitude, formattedCityName);
+
+          processDecisionEngine(targetLatitude, targetLongitude, formattedCityName);
+        },
+        error: function() {
+          $("#smart-loading").addClass("hidden");
+          $("#smart-content").removeClass("hidden");
+          $("#ai-alert").text("Koneksi gateway API Geocoding Nominatim terputus.");
+        }
+      });
+    });
+
+    // Level 10 Core Engine: Decision Logic System Gabungan Multi-API Data & Logistik Konteks Perjalanan
+    function processDecisionEngine(targetLat, targetLon, currentCityName) {
+      // 1. Integrasi Perhitungan Jarak Geografis Menggunakan Formula Haversine (Aman dari pembatasan CORS)
+      const earthRadius = 6371; // Radius Bumi dalam Kilometer
+      const dLat = (targetLat - baseLat) * Math.PI / 180;
+      const dLon = (targetLon - baseLon) * Math.PI / 180;
+      
+      const haversineComponent = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(baseLat * Math.PI / 180) * Math.cos(targetLat * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+      
+      const arcCalculation = 2 * Math.atan2(Math.sqrt(haversineComponent), Math.sqrt(1-haversineComponent));
+      const calculatedDistance = Math.round(earthRadius * arcCalculation);
+      
+      // Estimasi waktu tempuh darat dengan asumsi rata-rata kecepatan kendaraan normal 60 km/jam
+      const totalHoursNeeded = parseFloat((calculatedDistance / 60).toFixed(1));
+
+      // 2. Tarik info cuaca saat ini dari Open-Meteo di lokasi tujuan untuk digabungkan ke decision system
+      const targetWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${targetLat}&longitude=${targetLon}&current=temperature_2m,weather_code&timezone=Asia%2FJakarta`;
+      
+      $.ajax({
+        url: targetWeatherUrl,
+        method: "GET",
+        success: function(targetResponse) {
+          const currentTarget = targetResponse.current;
+          const wmoCode = currentTarget.weather_code;
+          const tempValue = Math.round(currentTarget.temperature_2m);
+          const weatherInterpretation = interpretWmoCode(wmoCode);
+
+          $("#route-dist").text(`${calculatedDistance} km`);
+          $("#route-time").text(`${totalHoursNeeded} jam`);
+
+          // BLOK LOGIKA KEPUTUSAN KONTEKSTUAL (Decision Logic System Core)
+          let finalRecommendationMessage = "";
+
+          if (wmoCode >= 51 && wmoCode <= 99) {
+            // Deteksi WMO Code >= 51 artinya terjadi Hujan (Drizzle, Rain, Shower, s/d Thunderstorm)
+            finalRecommendationMessage = `🌧️ Di kota <strong class='text-white'>${currentCityName}</strong> sedang diprediksi terjadi ${weatherInterpretation.desc} (${tempValue}°C). <span class='text-pink-400 font-bold'>Wajib membawa jas hujan atau payung di kendaraan Anda</span> serta kurangi kecepatan menembus rute ${calculatedDistance} km demi keselamatan!`;
+          } else if (wmoCode >= 45 && wmoCode <= 48) {
+            // Deteksi Kondisi Berkabut
+            finalRecommendationMessage = `专 Kondisi jarak pandang di <strong class='text-white'>${currentCityName}</strong> diselimuti kabut tebal. Gunakan lampu kabut utama kendaraan Anda selama menempuh perjalanan ${totalHoursNeeded} jam tersebut.`;
+          } else {
+            // Deteksi Cerah / Berawan Sebagian Normal
+            finalRecommendationMessage = `☀️ Kondisi cuaca di kota <strong class='text-white'>${currentCityName}</strong> sangat bersahabat, yaitu ${weatherInterpretation.desc} (${tempValue}°C). Kondisi ini sangat ideal untuk melakukan perjalanan darat. Selamat berkendara!`;
+          }
+
+          // Menyuntikkan teks rekomendasi ke dalam UI panel asisten cerdas
+          $("#ai-alert").html(finalRecommendationMessage);
+          
+          $("#smart-loading").addClass("hidden");
+          $("#smart-content").removeClass("hidden");
+        },
+        error: function() {
+          $("#smart-loading").addClass("hidden");
+          $("#smart-content").removeClass("hidden");
+          $("#ai-alert").text("Gagal mengevaluasi keputusan cuaca akhir dari Open-Meteo.");
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,147 @@
+<section id="my-friends" class="scroll-mt-24 my-10 space-y-8">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+    <div>
+      <h3 class="text-3xl font-bold text-white">
+        My <span class="text-blue-400">Friends Data</span>
+      </h3>
+    </div>
+    
+    <div class="flex flex-wrap gap-3 items-center">
+      <div class="flex items-center gap-2">
+        <label for="filter-poin" class="text-xs text-gray-400 uppercase font-bold tracking-wider">Filter:</label>
+        <select id="filter-poin" class="bg-white/5 border border-white/10 text-white rounded-xl px-4 py-2 outline-none text-sm focus:border-blue-500">
+          <option value="all" class="bg-[#0b0f19]">Semua Mahasiswa</option>
+          <option value="high" class="bg-[#0b0f19]">Poin Lebih dari 80 (> 80)</option>
+        </select>
+      </div>
+      
+      <button id="btn-load-friends" class="bg-gradient-to-r from-blue-500 to-pink-500 text-white font-black py-2.5 px-6 rounded-xl text-xs uppercase tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-md">
+        Load Data Mahasiswa
+      </button>
+    </div>
+  </div>
+
+  <div class="p-6 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-sm overflow-x-auto box-border">
+    <table id="table-mahasiswa" class="w-full text-left border-collapse text-sm hidden">
+      <thead>
+        <tr class="border-b border-white/10 text-gray-400 uppercase text-xs tracking-wider">
+          <th class="pb-4 pt-2">No</th>
+          <th class="pb-4 pt-2">NIM</th>
+          <th class="pb-4 pt-2">Nama</th>
+          <th class="pb-4 pt-2">Kelas</th>
+          <th class="pb-4 pt-2">Poin</th>
+        </tr>
+      </thead>
+      <tbody id="list-mahasiswa" class="divide-y divide-white/5">
+        </tbody>
+    </table>
+    
+    <div id="empty-state" class="text-center py-12 text-gray-400">
+      <p>Silakan klik tombol <strong class="text-white">"Load Data Mahasiswa"</strong> di kanan atas untuk mensimulasikan penarikan data kelas KA 2024.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready(function () {
+    const dummyApiData = [
+      { id: 1, nim: "242302001", nama: "Indira Jasmine Luay", kelas: "KA-2024 Reg", poin: 85 },
+      { id: 2, nim: "242302002", nama: "Nenden Setiani Dewi", kelas: "KA-2024 Reg", poin: 78 },
+      { id: 3, nim: "242302003", nama: "Echa Ardia Pramesti", kelas: "KA-2024 Reg", poin: 92 },
+      { id: 4, nim: "242302004", nama: "Siti Nurhaliza", kelas: "KA-2024 Reg", poin: 95 },
+      { id: 5, nim: "242302005", nama: "Deani Nurfitria", kelas: "KA-2024 Reg", poin: 70 },
+      { id: 6, nim: "242302006", nama: "Arip Nur Hakim", kelas: "KA-2024 Reg", poin: 83 },
+      { id: 7, nim: "242302007", nama: "Abdul Muhamad Nasir", kelas: "KA-2024 Reg", poin: 65 },
+      { id: 8, nim: "242302008", nama: "Agung Saiful Kamil", kelas: "KA-2024 Reg", poin: 88 },
+      { id: 9, nim: "242302009", nama: "Ahmad Fauzi Nurjaman", kelas: "KA-2024 Reg", poin: 74 },
+      { id: 10, nim: "242302010", nama: "Anka Azzahra", kelas: "KA-2024 Reg", poin: 91 },
+      { id: 11, nim: "242302011", nama: "Ardila Sabila", kelas: "KA-2024 Reg", poin: 68 },
+      { id: 12, nim: "242302012", nama: "Bela Sapira", kelas: "KA-2024 Reg", poin: 80 },
+      { id: 13, nim: "242302013", nama: "Cello Ondrea Pringga", kelas: "KA-2024 Reg", poin: 86 },
+      { id: 14, nim: "242302014", nama: "Desti Melani", kelas: "KA-2024 Reg", poin: 72 },
+      { id: 15, nim: "242302015", nama: "Dimas Luqmanul Hakim", kelas: "KA-2024 Reg", poin: 79 },
+      { id: 16, nim: "242302016", nama: "Hilzan Aditya Rahman", kelas: "KA-2024 Reg", poin: 84 },
+      { id: 17, nim: "242302017", nama: "Muhammad Zaki Alfajri", kelas: "KA-2024 Reg", poin: 90 },
+      { id: 18, nim: "242302019", nama: "Neysa Anindytha Ridwan", kelas: "KA-2024 Reg", poin: 87 },
+      { id: 19, nim: "242302020", nama: "Novia Safitri", kelas: "KA-2024 Reg", poin: 63 },
+      { id: 20, nim: "242302021", nama: "Rendy Maulana Akhbar", kelas: "KA-2024 Reg", poin: 76 },
+      { id: 21, nim: "242302022", nama: "Risma Nurdiani", kelas: "KA-2024 Reg", poin: 89 },
+      { id: 22, nim: "242302023", nama: "Siti Nurlaila", kelas: "KA-2024 Reg", poin: 81 },
+      { id: 23, nim: "242302025", nama: "Yauhana Lion Octav Pratama Jaya", kelas: "KA-2024 Reg", poin: 55 },
+      { id: 24, nim: "242302026", nama: "Neng Ayu Wulandari", kelas: "KA-2024 Reg", poin: 82 }
+    ];
+    
+    let masterData = []; 
+    let dataTableInstance = null;
+
+    $("#btn-load-friends").click(function() {
+      $("#empty-state").html('<div class="w-8 h-8 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div><p class="animate-pulse text-blue-400">Mensimulasikan pengambilan daftar mahasiswa KA 2024...</p>');
+      
+      setTimeout(function() {
+        masterData = [...dummyApiData]; 
+        
+        $("#empty-state").addClass("hidden");
+        $("#table-mahasiswa").removeClass("hidden");
+        
+        renderTableData(masterData);
+      }, 700);
+    });
+
+    function renderTableData(dataList) {
+      if (dataTableInstance) {
+        dataTableInstance.destroy();
+      }
+
+      let rowsHtml = "";
+      
+      dataList.forEach((mhs, index) => {
+        const isHigh = mhs.poin > 80;
+
+        rowsHtml += `
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="py-4 font-medium text-gray-500">${index + 1}</td>
+            <td class="py-4 font-mono text-blue-400 text-xs md:text-sm">${mhs.nim}</td>
+            <td class="py-4 font-bold text-white">${mhs.nama}</td>
+            <td class="py-4 text-gray-300">${mhs.kelas}</td>
+            <td class="py-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${isHigh ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-pink-500/10 text-pink-400 border border-pink-500/20'}">
+                <span class="w-1.5 h-1.5 rounded-full ${isHigh ? 'bg-green-400' : 'bg-pink-400'}"></span>
+                ${mhs.poin}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      $("#list-mahasiswa").html(rowsHtml);
+
+      dataTableInstance = $('#table-mahasiswa').DataTable({
+        "pageLength": 5,
+        "lengthMenu": [5, 10, 25, 50],
+        "ordering": true,
+        "info": true,
+        "language": {
+          "search": "Cari Teman:",
+          "lengthMenu": "Tampilkan _MENU_ baris",
+          "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+          "paginate": {
+            "next": "Lanjut",
+            "previous": "Mundur"
+          }
+        }
+      });
+    }
+
+    $("#filter-poin").change(function() {
+      const selectedFilter = $(this).val();
+      if(masterData.length === 0) return; 
+      
+      if(selectedFilter === "high") {
+        const filteredArray = masterData.filter(mhs => mhs.poin > 80);
+        renderTableData(filteredArray);
+      } else {
+        renderTableData(masterData);
+      }
+    });
+  });
+</script>

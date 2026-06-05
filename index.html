@@ -14,6 +14,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap");
       body {
@@ -45,6 +49,16 @@
         transform: translateY(-3px);
         box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3);
       }
+
+      /* Tweak Penyelarasan Tema Gelap DataTables */
+      .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, 
+      .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, 
+      .dataTables_wrapper .dataTables_paginate { color: #9ca3af !important; margin-bottom: 10px; }
+      .dataTables_wrapper .dataTables_paginate .paginate_button.current { background: linear-gradient(45deg, #3b82f6, #ec4899) !important; color: white !important; border: none !important; border-radius: 8px; }
+      .dataTables_wrapper .dataTables_paginate .paginate_button { color: #9ca3af !important; }
+      table.dataTable tbody tr { background-color: rgba(255,255,255,0.02) !important; color: #f0f0f0; }
+      .dataTables_wrapper .dataTables_filter input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; padding: 4px 8px; margin-left: 8px; outline: none; }
+      .dataTables_wrapper .dataTables_filter input:focus { border-color: #3b82f6; }
     </style>
   </head>
   <body class="min-h-screen flex flex-col overflow-x-hidden">
@@ -116,7 +130,6 @@
             class="nav-link transition-all hover:text-blue-400"
             >Experience</a
           >
-
           <a
             href="#"
             class="nav-link transition-all hover:text-blue-400"
@@ -128,6 +141,19 @@
             class="nav-link transition-all hover:text-blue-400"
             data-page="certificates"
             >Certificates</a
+          >
+          
+          <a
+            href="#"
+            class="nav-link transition-all hover:text-blue-400"
+            data-page="my-friends"
+            >My Friends</a
+          >
+          <a
+            href="#"
+            class="nav-link transition-all hover:text-blue-400"
+            data-page="weather"
+            >Weather Smart</a
           >
         </div>
       </div>
@@ -174,7 +200,6 @@
             { opacity: 0, marginTop: "20px" },
             200,
             function () {
-              // Mengambil file halaman eksternal secara asynchronous
               $.ajax({
                 url: pageName + ".html",
                 method: "GET",
@@ -205,7 +230,6 @@
             .catch(err => console.error('Pendaftaran Service Worker gagal:', err));
         });
       }
-      // ===========================================================
     </script>
   </body>
 </html>
